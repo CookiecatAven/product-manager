@@ -2,6 +2,7 @@ package ch.csbe.productmanager.resources.category;
 
 import ch.csbe.productmanager.resources.product.Product;
 import jakarta.persistence.*;
+
 import java.util.List;
 
 /**

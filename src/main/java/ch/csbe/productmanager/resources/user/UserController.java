@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/{username}/role")
     public String getUserRoleByUsername(@PathVariable String username) {
-        Optional<User> user =  userService.getUserByUsername(username);
+        Optional<User> user = userService.getUserByUsername(username);
         if (user.isPresent()) {
             return user.get().getRole();
         } else {
@@ -37,7 +37,7 @@ public class UserController {
 
     @PutMapping("/{username}/role")
     public boolean setUserRoleByUsername(@PathVariable String username, @RequestBody String role) {
-        Optional<User> user =  userService.getUserByUsername(username);
+        Optional<User> user = userService.getUserByUsername(username);
         if (user.isPresent()) {
             user.get().setRole(role);
             userService.updateUser(user.get().getId(), user.get());

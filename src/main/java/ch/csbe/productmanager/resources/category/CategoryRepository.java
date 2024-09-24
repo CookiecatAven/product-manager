@@ -1,6 +1,5 @@
 package ch.csbe.productmanager.resources.category;
 
-import ch.csbe.productmanager.resources.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

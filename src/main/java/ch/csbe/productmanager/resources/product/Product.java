@@ -2,7 +2,6 @@ package ch.csbe.productmanager.resources.product;
 
 import ch.csbe.productmanager.resources.category.Category;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ManyToAny;
 
 /**
  * Die Product-Klasse repräsentiert ein Produkt in der Datenbank.
