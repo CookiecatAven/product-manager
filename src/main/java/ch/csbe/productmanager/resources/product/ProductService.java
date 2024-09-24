@@ -23,7 +23,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Optional<Product> getProductById(Long id) {
+    public Optional<Product> getProductById(Integer id) {
         return productRepository.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long id, Product updatedProduct) {
+    public Product updateProduct(Integer id, Product updatedProduct) {
         return productRepository.findById(id)
                 .map(product -> {
                     product.setName(updatedProduct.getName());
@@ -42,7 +42,7 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Produkt mit ID " + id + " nicht gefunden."));
     }
 
-    public void deleteProduct(Long id) {
+    public void deleteProduct(Integer id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
         } else {
