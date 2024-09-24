@@ -17,7 +17,11 @@ public class Category {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(columnDefinition = "INT")
+    private Integer id;
+
+    @Column(nullable = false, columnDefinition = "TINYINT")
+    private Boolean active;
 
     /**
      * Der Name der Kategorie.
@@ -31,23 +35,12 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
-    // Getter und Setter für alle Felder
-
-    /**
-     * Gibt die ID der Kategorie zurück.
-     *
-     * @return Kategorie-ID
-     */
-    public Long getId() {
+    // Getter und Setter
+    public Integer getId() {
         return id;
     }
 
-    /**
-     * Setzt die ID der Kategorie.
-     *
-     * @param id Kategorie-ID
-     */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

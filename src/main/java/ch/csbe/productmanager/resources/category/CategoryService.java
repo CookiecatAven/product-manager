@@ -23,7 +23,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<Category> getCategoryById(Long id) {
+    public Optional<Category> getCategoryById(Integer id) {
         return categoryRepository.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category updateCategory(Long id, Category updatedCategory) {
+    public Category updateCategory(Integer id, Category updatedCategory) {
         return categoryRepository.findById(id)
                 .map(category -> {
                     category.setName(updatedCategory.getName());
@@ -41,7 +41,7 @@ public class CategoryService {
                 .orElseThrow(() -> new RuntimeException("Kategorie mit ID " + id + " nicht gefunden."));
     }
 
-    public void deleteCategory(Long id) {
+    public void deleteCategory(Integer id) {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
         } else {
