@@ -1,13 +1,13 @@
-package ch.csbe.pruductmanager;
+package ch.csbe.productmanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PruductManagerApplication {
+public class ProductManagerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PruductManagerApplication.class, args);
+        SpringApplication.run(ProductManagerApplication.class, args);
     }
 
 }
