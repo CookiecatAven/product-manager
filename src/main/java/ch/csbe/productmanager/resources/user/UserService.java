@@ -23,15 +23,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public User addUser(User user) {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, User updatedUser) {
+    public User updateUser(Integer id, User updatedUser) {
         return userRepository.findById(id)
                 .map(user -> {
                     user.setUsername(updatedUser.getUsername());
@@ -40,13 +40,5 @@ public class UserService {
                     return userRepository.save(user);
                 })
                 .orElseThrow(() -> new RuntimeException("Benutzer mit ID " + id + " nicht gefunden."));
-    }
-
-    public void deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Benutzer mit ID " + id + " nicht gefunden.");
-        }
     }
 }

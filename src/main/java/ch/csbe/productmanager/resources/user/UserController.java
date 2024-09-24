@@ -25,23 +25,30 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    @GetMapping("/{username}/role")
+    public String getUserRoleByUsername(@PathVariable String username) {
+        Optional<User> user =  userService.getUserByUsername(username);
+        if (user.isPresent()) {
+            return user.get().getRole();
+        } else {
+            return "Benutzer wurde nicht gefunden";
+        }
+    }
+
+    @PutMapping("/{username}/role")
+    public boolean setUserRoleByUsername(@PathVariable String username, @RequestBody String role) {
+        Optional<User> user =  userService.getUserByUsername(username);
+        if (user.isPresent()) {
+            user.get().setRole(role);
+            userService.updateUser(user.get().getId(), user.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @PostMapping
     public User addUser(@RequestBody User user) {
         return userService.addUser(user);
-    }
-
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        return userService.updateUser(id, updatedUser);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
     }
 }

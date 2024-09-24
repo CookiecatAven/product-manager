@@ -11,7 +11,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(columnDefinition = "INT")
+    private Integer id;
 
     private String username;
 
@@ -19,12 +20,12 @@ public class User {
 
     private String role;
 
-    // Getter und Setter für alle Felder
-    public Long getId() {
+    // Getter und Setter
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
