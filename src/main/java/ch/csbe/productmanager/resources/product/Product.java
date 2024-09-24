@@ -11,9 +11,6 @@ import jakarta.persistence.*;
 @Table(name = "products")
 public class Product {
 
-    /**
-     * Die eindeutige ID des Produkts, die automatisch generiert wird.
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,75 +34,34 @@ public class Product {
     private Category category;
 
     // Getter und Setter für alle Felder
-
-    /**
-     * Gibt die ID des Produkts zurück.
-     *
-     * @return Produkt-ID
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     * Setzt die ID des Produkts.
-     *
-     * @param id Produkt-ID
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * Gibt den Namen des Produkts zurück.
-     *
-     * @return Produktname
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Setzt den Namen des Produkts.
-     *
-     * @param name Produktname
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Gibt den Preis des Produkts zurück.
-     *
-     * @return Produktpreis
-     */
     public double getPrice() {
         return price;
     }
 
-    /**
-     * Setzt den Preis des Produkts.
-     *
-     * @param price Produktpreis
-     */
     public void setPrice(double price) {
         this.price = price;
     }
 
-    /**
-     * Gibt die Kategorie des Produkts zurück.
-     *
-     * @return Produktkategorie
-     */
     public Category getCategory() {
         return category;
     }
 
-    /**
-     * Setzt die Kategorie des Produkts.
-     *
-     * @param category Produktkategorie
-     */
     public void setCategory(Category category) {
         this.category = category;
     }

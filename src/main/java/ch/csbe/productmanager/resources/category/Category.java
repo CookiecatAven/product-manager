@@ -44,38 +44,18 @@ public class Category {
         this.id = id;
     }
 
-    /**
-     * Gibt den Namen der Kategorie zurück.
-     *
-     * @return Kategoriename
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Setzt den Namen der Kategorie.
-     *
-     * @param name Kategoriename
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Gibt die Liste von Produkten zurück, die zu dieser Kategorie gehören.
-     *
-     * @return Liste der Produkte
-     */
     public List<Product> getProducts() {
         return products;
     }
 
-    /**
-     * Setzt die Liste von Produkten, die zu dieser Kategorie gehören.
-     *
-     * @param products Liste der Produkte
-     */
     public void setProducts(List<Product> products) {
         this.products = products;
     }
