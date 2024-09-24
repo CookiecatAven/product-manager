@@ -26,13 +26,14 @@ public class Category {
     /**
      * Der Name der Kategorie.
      */
+    @Column(nullable = false)
     private String name;
 
     /**
      * Die Liste von Produkten, die zu dieser Kategorie gehören.
      * Die Beziehung wird durch @OneToMany definiert, was bedeutet, dass eine Kategorie viele Produkte haben kann.
      */
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
 
     // Getter und Setter
