@@ -11,8 +11,8 @@
     <groupId>ch.csbe</groupId>
     <artifactId>pruduct-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>pruduct-manager</name>
-    <description>pruduct-manager</description>
+    <name>product-manager</name>
+    <description>product-manager</description>
     <url/>
     <licenses>
         <license/>
