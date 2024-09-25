@@ -1,19 +1,21 @@
 package ch.csbe.productmanager.resources.category.dto;
 
+import lombok.Data;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * DTO zur Aktualisierung von Kategorien.
  */
+@Data
 public class CategoryUpdateDto {
 
+    @NotNull
+    private Integer id;
+
+    @NotNull
+    private Boolean active;
+
+    @NotNull
     private String name;
-
-    // Getter und Setter
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
 

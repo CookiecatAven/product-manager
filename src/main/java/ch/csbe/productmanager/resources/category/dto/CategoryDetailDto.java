@@ -1,13 +1,16 @@
 package ch.csbe.productmanager.resources.category.dto;
 
+import ch.csbe.productmanager.resources.product.dto.ProductShowDto;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
- * DTO zur Anzeige von Kategorien.
+ * DTO zur Aktualisierung von Kategorien.
  */
 @Data
-public class CategoryShowDto {
+public class CategoryDetailDto {
 
     @NotNull
     private Integer id;
@@ -17,5 +20,8 @@ public class CategoryShowDto {
 
     @NotNull
     private String name;
+
+    @NotNull
+    private List<ProductShowDto> products;
 }
 
