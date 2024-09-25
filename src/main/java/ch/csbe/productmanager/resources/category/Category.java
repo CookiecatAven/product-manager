@@ -2,7 +2,7 @@ package ch.csbe.productmanager.resources.category;
 
 import ch.csbe.productmanager.resources.product.Product;
 import jakarta.persistence.*;
-import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -11,7 +11,6 @@ import java.util.List;
  */
 @Entity
 @Table(name = "categories")
-@Data
 public class Category {
 
     /**
@@ -37,5 +36,29 @@ public class Category {
      */
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
-}
 
+    // Getter und Setter
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+}
