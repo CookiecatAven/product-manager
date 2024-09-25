@@ -2,6 +2,7 @@ package ch.csbe.productmanager.resources.product;
 
 import ch.csbe.productmanager.resources.category.Category;
 import jakarta.persistence.*;
+import lombok.Data;
 
 /**
  * Die Product-Klasse repräsentiert ein Produkt in der Datenbank.
@@ -9,6 +10,8 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "products")
+@Data
+
 public class Product {
 
     @Id
@@ -45,76 +48,5 @@ public class Product {
     @JoinColumn(name = "category_id")  // Fremdschlüssel in der Tabelle "products"
     private Category category;
 
-    // Getter und Setter
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
 }
