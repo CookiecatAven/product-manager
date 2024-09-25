@@ -1,7 +1,5 @@
 package ch.csbe.productmanager.resources.user;
 
-import ch.csbe.productmanager.resources.category.Category;
-import ch.csbe.productmanager.resources.category.dto.CategoryShowDto;
 import ch.csbe.productmanager.resources.user.dto.UserCreateDto;
 import ch.csbe.productmanager.resources.user.dto.UserDetailDto;
 import ch.csbe.productmanager.resources.user.dto.UserShowDto;
@@ -35,6 +33,7 @@ public abstract class UserMapper {
      * @param createDto das DTO zur Benutzererstellung
      * @return die Benutzer-Entität
      */
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "username", target = "username")
     @Mapping(source = "password", target = "password")
     @Mapping(source = "role", target = "role")

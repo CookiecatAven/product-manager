@@ -29,6 +29,7 @@ public abstract class ProductMapper {
     @Mapping(source = "category", target = "category")
     public abstract ProductDetailDto toDetailDto(Product product);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "active", target = "active")
     @Mapping(source = "sku", target = "sku")
     @Mapping(source = "name", target = "name")
@@ -36,8 +37,10 @@ public abstract class ProductMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "stock", target = "stock")
+    @Mapping(target = "category", ignore = true)
     public abstract Product toEntity(ProductCreateDto product);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "active", target = "active")
     @Mapping(source = "sku", target = "sku")
     @Mapping(source = "name", target = "name")
@@ -45,6 +48,7 @@ public abstract class ProductMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "stock", target = "stock")
+    @Mapping(target = "category", ignore = true)
     public abstract void update(ProductUpdateDto productUpdateDto, @MappingTarget Product productEntityToUpdate);
 }
 

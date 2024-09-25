@@ -43,8 +43,10 @@ public abstract class CategoryMapper {
      * @param createDto die CategoryCreateDto-Entität
      * @return die Category-Entität
      */
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "active", target = "active")
     @Mapping(source = "name", target = "name")
+    @Mapping(target = "products", ignore = true)
     public abstract Category toEntity(CategoryCreateDto createDto);
 
     /**
@@ -53,7 +55,9 @@ public abstract class CategoryMapper {
      * @param categoryUpdateDto das CategoryUpdateDto mit den neuen Daten
      * @param categoryEntityToUpdate die Category-Entität, welche aktualisiert werden soll
      */
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "active", target = "active")
     @Mapping(source = "name", target = "name")
+    @Mapping(target = "products", ignore = true)
     public abstract void update(CategoryUpdateDto categoryUpdateDto, @MappingTarget Category categoryEntityToUpdate);
 }
