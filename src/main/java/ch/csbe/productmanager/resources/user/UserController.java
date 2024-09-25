@@ -1,5 +1,8 @@
 package ch.csbe.productmanager.resources.user;
 
+import ch.csbe.productmanager.resources.user.dto.UserCreateDto;
+import ch.csbe.productmanager.resources.user.dto.UserDetailDto;
+import ch.csbe.productmanager.resources.user.dto.UserShowDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,34 +24,29 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserShowDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    // todo sollte einen wert aus einer enumeration/code-table zurückgeben
     @GetMapping("/{username}/role")
     public String getUserRoleByUsername(@PathVariable String username) {
         Optional<User> user = userService.getUserByUsername(username);
         if (user.isPresent()) {
             return user.get().getRole();
         } else {
+            // todo noch den richtigen error code senden -> 404
             return "Benutzer wurde nicht gefunden";
         }
     }
 
     @PutMapping("/{username}/role")
-    public boolean setUserRoleByUsername(@PathVariable String username, @RequestBody String role) {
-        Optional<User> user = userService.getUserByUsername(username);
-        if (user.isPresent()) {
-            user.get().setRole(role);
-            userService.updateUser(user.get().getId(), user.get());
-            return true;
-        } else {
-            return false;
-        }
+    public UserDetailDto setUserRoleByUsername(@PathVariable String username, @RequestBody String role) {
+        return userService.updateUserRole(username, role);
     }
 
     @PostMapping
-    public User addUser(@RequestBody User user) {
+    public UserDetailDto addUser(@RequestBody UserCreateDto user) {
         return userService.addUser(user);
     }
 }

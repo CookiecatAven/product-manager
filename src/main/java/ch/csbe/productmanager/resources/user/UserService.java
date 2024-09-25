@@ -1,8 +1,12 @@
 package ch.csbe.productmanager.resources.user;
 
+import ch.csbe.productmanager.resources.user.dto.UserCreateDto;
+import ch.csbe.productmanager.resources.user.dto.UserDetailDto;
+import ch.csbe.productmanager.resources.user.dto.UserShowDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,32 +17,41 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserShowDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserShowDto> userShowDtos = new ArrayList<>();
+        for (User user : users) {
+            userShowDtos.add(userMapper.toShowDto(user));
+        }
+        return userShowDtos;
     }
 
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public UserDetailDto addUser(UserCreateDto userCreateDto) {
+        User savedUser = userRepository.save(userMapper.toEntity(userCreateDto));
+        return userMapper.toDetailDto(savedUser);
     }
 
-    public User updateUser(Integer id, User updatedUser) {
-        return userRepository.findById(id)
+    public UserDetailDto updateUserRole(String username, String role) {
+        return getUserByUsername(username)
                 .map(user -> {
-                    user.setUsername(updatedUser.getUsername());
-                    user.setPassword(updatedUser.getPassword());
-                    user.setRole(updatedUser.getRole());
-                    return userRepository.save(user);
+                    user.setRole(role);
+                    User savedUser = userRepository.save(user);
+                    return userMapper.toDetailDto(savedUser);
                 })
-                .orElseThrow(() -> new RuntimeException("Benutzer mit ID " + id + " nicht gefunden."));
+                .orElseThrow(() ->
+                        new RuntimeException("Benutzer mit username \"" + username + "\" konnte nicht gefunden.")
+                );
     }
 }
