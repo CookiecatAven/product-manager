@@ -1,11 +1,15 @@
 package ch.csbe.productmanager.resources.product;
 
+import ch.csbe.productmanager.resources.product.dto.ProductCreateDto;
+import ch.csbe.productmanager.resources.product.dto.ProductDetailDto;
+import ch.csbe.productmanager.resources.product.dto.ProductShowDto;
+import ch.csbe.productmanager.resources.product.dto.ProductUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service-Klasse zur Verwaltung von Produkten.
@@ -21,7 +25,7 @@ public class ProductService {
      * Konstruktor, um das Repository und den Mapper zu injizieren.
      *
      * @param productRepository das Produkt-Repository zur Datenbankoperation
-     * @param productMapper der Mapper zur Konvertierung von Produktdaten
+     * @param productMapper     der Mapper zur Konvertierung von Produktdaten
      */
     @Autowired
     public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
@@ -34,8 +38,13 @@ public class ProductService {
      *
      * @return Liste aller Produkte
      */
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductShowDto> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        List<ProductShowDto> productShowDtos = new ArrayList<>();
+        for (Product product : products) {
+            productShowDtos.add(productMapper.toShowDto(product));
+        }
+        return productShowDtos;
     }
 
     /**
@@ -44,33 +53,35 @@ public class ProductService {
      * @param id die ID des Produkts
      * @return ein Optional mit dem Produkt, falls vorhanden
      */
-    public Optional<Product> getProductById(Integer id) {
-        return productRepository.findById(id);
+    public Optional<ProductDetailDto> getProductById(Integer id) {
+        return productRepository.findById(id)
+                .map(productMapper::toDetailDto);
     }
 
     /**
      * Fügt ein neues Produkt in die Datenbank ein.
      *
-     * @param product das zu speichernde Produkt
+     * @param productDto das zu speichernde Produkt
      * @return das gespeicherte Produkt
      */
-    public Product addProduct(Product product) {
-        Product mappedProduct = productMapper.toEntity(product);
-        return productRepository.save(mappedProduct);
+    public ProductDetailDto addProduct(ProductCreateDto productDto) {
+        Product savedProduct = productRepository.save(productMapper.toEntity(productDto));
+        return productMapper.toDetailDto(savedProduct);
     }
 
     /**
      * Aktualisiert ein Produkt in der Datenbank.
      *
-     * @param id die ID des Produkts
-     * @param updatedProduct die aktualisierten Produktdaten
+     * @param id               die ID des Produkts
+     * @param updateProductDto die aktualisierten Produktdaten
      * @return das aktualisierte Produkt
      */
-    public Product updateProduct(Integer id, Product updatedProduct) {
+    public ProductDetailDto updateProduct(Integer id, ProductUpdateDto updateProductDto) {
         return productRepository.findById(id)
                 .map(product -> {
-                    Product mappedProduct = productMapper.toEntity(updatedProduct);
-                    return productRepository.save(mappedProduct);
+                    productMapper.update(updateProductDto, product);
+                    Product savedProduct = productRepository.save(product);
+                    return productMapper.toDetailDto(savedProduct);
                 })
                 .orElseThrow(() -> new RuntimeException("Produkt mit ID " + id + " nicht gefunden."));
     }

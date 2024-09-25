@@ -11,7 +11,6 @@ import lombok.Data;
 @Entity
 @Table(name = "products")
 @Data
-
 public class Product {
 
     @Id
@@ -47,6 +46,4 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")  // Fremdschlüssel in der Tabelle "products"
     private Category category;
-
-
 }

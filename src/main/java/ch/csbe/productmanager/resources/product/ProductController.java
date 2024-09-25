@@ -1,5 +1,9 @@
 package ch.csbe.productmanager.resources.product;
 
+import ch.csbe.productmanager.resources.product.dto.ProductCreateDto;
+import ch.csbe.productmanager.resources.product.dto.ProductDetailDto;
+import ch.csbe.productmanager.resources.product.dto.ProductShowDto;
+import ch.csbe.productmanager.resources.product.dto.ProductUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,22 +25,22 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
+    public List<ProductShowDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> getProductById(@PathVariable Integer id) {
+    public Optional<ProductDetailDto> getProductById(@PathVariable Integer id) {
         return productService.getProductById(id);
     }
 
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
+    public ProductDetailDto addProduct(@RequestBody ProductCreateDto product) {
         return productService.addProduct(product);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Integer id, @RequestBody Product updatedProduct) {
+    public ProductDetailDto updateProduct(@PathVariable Integer id, @RequestBody ProductUpdateDto updatedProduct) {
         return productService.updateProduct(id, updatedProduct);
     }
 
