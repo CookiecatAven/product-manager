@@ -1,20 +1,22 @@
 package ch.csbe.productmanager.resources.user.dto;
 
+
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * DTO für die Erstellung eines neuen Benutzers.
+ * DTO zur Anzeige von Benutzerdaten.
  */
 @Data
-public class UserCreateDto {
+public class UserDetailDto {
+
+    @NotNull
+    private Integer id;
 
     @NotNull
     private String username;
 
     @NotNull
-    private String password;
-
-    @NotNull
     private String role;
 }
+
