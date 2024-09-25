@@ -2,6 +2,8 @@ package ch.csbe.productmanager.resources.product;
 
 import ch.csbe.productmanager.resources.category.Category;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Die Product-Klasse repräsentiert ein Produkt in der Datenbank.
@@ -9,6 +11,7 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "products")
+@Data
 public class Product {
 
     @Id
