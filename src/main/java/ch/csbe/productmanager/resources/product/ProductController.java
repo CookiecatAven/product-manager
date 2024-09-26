@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,8 +55,9 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Produkt mit dieser ID nicht gefunden.")
     })
     @GetMapping("/{id}")
-    public Optional<ProductDetailDto> getProductById(@PathVariable Integer id) {
-        return productService.getProductById(id);
+    public ResponseEntity<ProductDetailDto> getProductById(@PathVariable Integer id) {
+        Optional<ProductDetailDto> foundProduct = productService.getProductById(id);
+        return foundProduct.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
@@ -74,7 +76,7 @@ public class ProductController {
     /**
      * Aktualisiert ein bestehendes Produkt.
      *
-     * @param id die ID des Produkts
+     * @param id             die ID des Produkts
      * @param updatedProduct die aktualisierten Produktdaten
      * @return das aktualisierte Produkt in Form eines ProductDetailDto
      */
@@ -84,14 +86,16 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Produkt mit dieser ID nicht gefunden.")
     })
     @PutMapping("/{id}")
-    public ProductDetailDto updateProduct(@PathVariable Integer id, @RequestBody ProductUpdateDto updatedProduct) {
-        return productService.updateProduct(id, updatedProduct);
+    public ResponseEntity<ProductDetailDto> updateProduct(@PathVariable Integer id, @RequestBody ProductUpdateDto updatedProduct) {
+        Optional<ProductDetailDto> storedUpdatedProduct = productService.updateProduct(id, updatedProduct);
+        return storedUpdatedProduct.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
      * Löscht ein Produkt basierend auf der ID.
      *
      * @param id die ID des Produkts, das gelöscht werden soll
+     * @return ResponseEntity mit HTTP Code
      */
     @Operation(summary = "Löscht ein Produkt", description = "Löscht ein Produkt aus dem System basierend auf der angegebenen ID.")
     @ApiResponses(value = {
@@ -99,7 +103,8 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Produkt mit dieser ID nicht gefunden.")
     })
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Integer id) {
-        productService.deleteProduct(id);
+    public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
+        boolean deleteResult = productService.deleteProduct(id);
+        return deleteResult ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 }

@@ -76,26 +76,26 @@ public class ProductService {
      * @param updateProductDto die aktualisierten Produktdaten
      * @return das aktualisierte Produkt
      */
-    public ProductDetailDto updateProduct(Integer id, ProductUpdateDto updateProductDto) {
+    public Optional<ProductDetailDto> updateProduct(Integer id, ProductUpdateDto updateProductDto) {
         return productRepository.findById(id)
                 .map(product -> {
                     productMapper.update(updateProductDto, product);
                     Product savedProduct = productRepository.save(product);
                     return productMapper.toDetailDto(savedProduct);
-                })
-                .orElseThrow(() -> new RuntimeException("Produkt mit ID " + id + " nicht gefunden."));
+                });
     }
 
     /**
      * Löscht ein Produkt aus der Datenbank.
      *
      * @param id die ID des zu löschenden Produkts
+     * @return true, wenn Löschen erfolgreich war, sonst false
      */
-    public void deleteProduct(Integer id) {
+    public boolean deleteProduct(Integer id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Produkt mit ID " + id + " nicht gefunden.");
+            return true;
         }
+        return false;
     }
 }
