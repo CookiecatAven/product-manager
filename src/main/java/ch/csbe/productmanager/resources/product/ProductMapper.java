@@ -26,6 +26,7 @@ public abstract class ProductMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "stock", target = "stock")
+    // todo funktioniert das?
     @Mapping(source = "category", target = "category")
     public abstract ProductDetailDto toDetailDto(Product product);
 
