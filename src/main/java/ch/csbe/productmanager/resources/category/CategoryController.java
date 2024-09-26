@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,8 +55,9 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "Kategorie mit dieser ID nicht gefunden.")
     })
     @GetMapping("/{id}")
-    public Optional<CategoryDetailDto> getCategoryById(@PathVariable Integer id) {
-        return categoryService.getCategoryById(id);
+    public ResponseEntity<CategoryDetailDto> getCategoryById(@PathVariable Integer id) {
+        Optional<CategoryDetailDto> foundCategory = categoryService.getCategoryById(id);
+        return foundCategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
@@ -84,8 +86,9 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "Kategorie mit dieser ID nicht gefunden.")
     })
     @PutMapping("/{id}")
-    public CategoryShowDto updateCategory(@PathVariable Integer id, @RequestBody CategoryUpdateDto updatedCategory) {
-        return categoryService.updateCategory(id, updatedCategory);
+    public ResponseEntity<CategoryShowDto> updateCategory(@PathVariable Integer id, @RequestBody CategoryUpdateDto updatedCategory) {
+        Optional<CategoryShowDto> storedUpdatedCategory = categoryService.updateCategory(id, updatedCategory);
+        return storedUpdatedCategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
@@ -99,7 +102,8 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "Kategorie mit dieser ID nicht gefunden.")
     })
     @DeleteMapping("/{id}")
-    public void deleteCategory(@PathVariable Integer id) {
-        categoryService.deleteCategory(id);
+    public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
+        boolean deleteResult = categoryService.deleteCategory(id);
+        return deleteResult ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 }

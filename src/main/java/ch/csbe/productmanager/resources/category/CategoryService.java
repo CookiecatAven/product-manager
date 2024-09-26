@@ -45,21 +45,20 @@ public class CategoryService {
         return categoryMapper.toShowDto(savedCategory);
     }
 
-    public CategoryShowDto updateCategory(Integer id, CategoryUpdateDto updatedCategory) {
+    public Optional<CategoryShowDto> updateCategory(Integer id, CategoryUpdateDto updatedCategory) {
         return categoryRepository.findById(id)
                 .map(category -> {
                     categoryMapper.update(updatedCategory, category);
                     Category savedCategory = categoryRepository.save(category);
                     return categoryMapper.toShowDto(savedCategory);
-                })
-                .orElseThrow(() -> new RuntimeException("Kategorie mit ID " + id + " nicht gefunden."));
+                });
     }
 
-    public void deleteCategory(Integer id) {
+    public boolean deleteCategory(Integer id) {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Kategorie mit ID " + id + " nicht gefunden.");
+            return true;
         }
+        return false;
     }
 }
