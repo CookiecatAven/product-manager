@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,20 +54,17 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden.")
     })
     @GetMapping("/{username}/role")
-    public String getUserRoleByUsername(@PathVariable String username) {
-        Optional<User> user = userService.getUserByUsername(username);
-        if (user.isPresent()) {
-            return user.get().getRole();
-        } else {
-            return "Benutzer wurde nicht gefunden"; // Hier könntest du optional eine 404-Fehlercode-Antwort senden.
-        }
+    public ResponseEntity<String> getUserRoleByUsername(@PathVariable String username) {
+        Optional<User> updatedUser = userService.getUserByUsername(username);
+        return updatedUser.map(user -> ResponseEntity.ok(user.getRole()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
      * Setzt die Rolle eines Benutzers.
      *
      * @param username der Benutzername
-     * @param role die neue Rolle
+     * @param role     die neue Rolle
      * @return das aktualisierte UserDetailDto
      */
     @Operation(summary = "Aktualisiert die Rolle eines Benutzers", description = "Setzt die Rolle eines Benutzers basierend auf dem Benutzernamen.")
@@ -75,8 +73,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden.")
     })
     @PutMapping("/{username}/role")
-    public UserDetailDto setUserRoleByUsername(@PathVariable String username, @RequestBody String role) {
-        return userService.updateUserRole(username, role);
+    public ResponseEntity<UserDetailDto> setUserRoleByUsername(@PathVariable String username, @RequestBody String role) {
+        Optional<UserDetailDto> updatedUser = userService.updateUserRole(username, role);
+        return updatedUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**

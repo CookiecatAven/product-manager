@@ -43,15 +43,12 @@ public class UserService {
         return userMapper.toDetailDto(savedUser);
     }
 
-    public UserDetailDto updateUserRole(String username, String role) {
+    public Optional<UserDetailDto> updateUserRole(String username, String role) {
         return getUserByUsername(username)
                 .map(user -> {
                     user.setRole(role);
                     User savedUser = userRepository.save(user);
                     return userMapper.toDetailDto(savedUser);
-                })
-                .orElseThrow(() ->
-                        new RuntimeException("Benutzer mit username \"" + username + "\" konnte nicht gefunden.")
-                );
+                });
     }
 }
