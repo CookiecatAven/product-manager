@@ -34,7 +34,6 @@ public abstract class CategoryMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "active", target = "active")
     @Mapping(source = "name", target = "name")
-    // todo funktioniert das?
     @Mapping(source = "products", target = "products")
     public abstract CategoryDetailDto toDetailDto(Category category);
 
