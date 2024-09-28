@@ -36,6 +36,6 @@ public abstract class UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "username", target = "username")
     @Mapping(source = "password", target = "password")
-    @Mapping(source = "role", target = "role")
+    @Mapping(target = "role", ignore = true)
     public abstract User toEntity(UserCreateDto createDto);
 }

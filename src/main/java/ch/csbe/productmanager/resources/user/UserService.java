@@ -4,6 +4,7 @@ import ch.csbe.productmanager.resources.user.dto.UserCreateDto;
 import ch.csbe.productmanager.resources.user.dto.UserDetailDto;
 import ch.csbe.productmanager.resources.user.dto.UserShowDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
     public UserService(UserRepository userRepository, UserMapper userMapper) {
@@ -50,7 +53,12 @@ public class UserService {
     }
 
     public UserDetailDto addUser(UserCreateDto userCreateDto) {
-        User savedUser = userRepository.save(userMapper.toEntity(userCreateDto));
+        User userToSave = userMapper.toEntity(userCreateDto);
+        // Passwort verschlüsseln bevor Entity gespeichert wird
+        userToSave.setPassword(encoder.encode(userToSave.getPassword()));
+        // Neue User haben die Rolle "Benutzer"
+        userToSave.setRole("Benutzer");
+        User savedUser = userRepository.save(userToSave);
         return userMapper.toDetailDto(savedUser);
     }
 

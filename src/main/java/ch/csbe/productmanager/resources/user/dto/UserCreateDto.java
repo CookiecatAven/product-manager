@@ -16,10 +16,6 @@ public class UserCreateDto {
     private String username;
 
     @NotNull
-    @Schema(description = "Das Passwort des neuen Benutzers. In der Realität sollte das verschlüsselt gespeichert werden.", example = "1538")
+    @Schema(description = "Das Passwort des neuen Benutzers.", example = "1538")
     private String password;
-
-    @NotNull
-    @Schema(description = "Die Rolle des neuen Benutzers (z. B. Benutzer oder Admin).", example = "Admin")
-    private String role;
 }
