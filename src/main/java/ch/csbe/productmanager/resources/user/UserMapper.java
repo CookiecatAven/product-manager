@@ -2,6 +2,7 @@ package ch.csbe.productmanager.resources.user;
 
 import ch.csbe.productmanager.resources.user.dto.UserCreateDto;
 import ch.csbe.productmanager.resources.user.dto.UserDetailDto;
+import ch.csbe.productmanager.resources.user.dto.UserRoleDto;
 import ch.csbe.productmanager.resources.user.dto.UserShowDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -26,6 +27,9 @@ public abstract class UserMapper {
     @Mapping(source = "username", target = "username")
     @Mapping(source = "role", target = "role")
     public abstract UserDetailDto toDetailDto(User user);
+
+    @Mapping(source = "role", target = "role")
+    public abstract UserRoleDto toUserRoleDto(User user);
 
     /**
      * Umwandlung von UserCreateDto zu User.

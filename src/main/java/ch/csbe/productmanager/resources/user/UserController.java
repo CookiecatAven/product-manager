@@ -2,6 +2,7 @@ package ch.csbe.productmanager.resources.user;
 
 import ch.csbe.productmanager.resources.user.dto.UserCreateDto;
 import ch.csbe.productmanager.resources.user.dto.UserDetailDto;
+import ch.csbe.productmanager.resources.user.dto.UserRoleDto;
 import ch.csbe.productmanager.resources.user.dto.UserShowDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,9 +11,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -26,9 +29,12 @@ public class UserController {
 
     private final UserService userService;
 
+    private final UserMapperImpl userMapperImpl;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapperImpl userMapperImpl) {
         this.userService = userService;
+        this.userMapperImpl = userMapperImpl;
     }
 
     /**
@@ -54,10 +60,11 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Benutzerrolle erfolgreich gefunden."),
             @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden.")
     })
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/{username}/role")
-    public ResponseEntity<String> getUserRoleByUsername(@PathVariable String username) {
+    public ResponseEntity<UserRoleDto> getUserRoleByUsername(@PathVariable String username) {
         Optional<User> updatedUser = userService.getUserByUsername(username);
-        return updatedUser.map(user -> ResponseEntity.ok(user.getRole()))
+        return updatedUser.map(user -> ResponseEntity.ok(userMapperImpl.toUserRoleDto(user)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -65,7 +72,7 @@ public class UserController {
      * Setzt die Rolle eines Benutzers.
      *
      * @param username der Benutzername
-     * @param role     die neue Rolle
+     * @param roleDto  die neue Rolle
      * @return das aktualisierte UserDetailDto
      */
     @Operation(summary = "Aktualisiert die Rolle eines Benutzers", description = "Setzt die Rolle eines Benutzers basierend auf dem Benutzernamen.")
@@ -73,9 +80,10 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Benutzerrolle erfolgreich aktualisiert."),
             @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden.")
     })
+    @PreAuthorize("hasAuthority('Admin')")
     @PutMapping("/{username}/role")
-    public ResponseEntity<UserDetailDto> setUserRoleByUsername(@PathVariable String username, @RequestBody String role) {
-        Optional<UserDetailDto> updatedUser = userService.updateUserRole(username, role);
+    public ResponseEntity<UserDetailDto> setUserRoleByUsername(@PathVariable String username, @RequestBody UserRoleDto roleDto) {
+        Optional<UserDetailDto> updatedUser = userService.updateUserRole(username, roleDto.getRole());
         return updatedUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
