@@ -16,9 +16,12 @@ public class User {
     @Column(columnDefinition = "INT")
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String role;
 }
