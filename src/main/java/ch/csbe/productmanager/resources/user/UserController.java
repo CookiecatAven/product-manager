@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,7 +88,7 @@ public class UserController {
     @Operation(summary = "Erstellt einen neuen Benutzer", description = "Fügt einen neuen Benutzer in das System ein und gibt die Details des erstellten Benutzers zurück.")
     @ApiResponse(responseCode = "201", description = "Benutzer erfolgreich erstellt.")
     @PostMapping
-    public UserDetailDto addUser(@RequestBody UserCreateDto user) {
-        return userService.addUser(user);
+    public ResponseEntity<UserDetailDto> addUser(@RequestBody UserCreateDto user) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUser(user));
     }
 }

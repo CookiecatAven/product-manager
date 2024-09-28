@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,8 +70,8 @@ public class ProductController {
     @Operation(summary = "Erstellt ein neues Produkt", description = "Fügt ein neues Produkt in das System ein und gibt die Details des erstellten Produkts zurück.")
     @ApiResponse(responseCode = "201", description = "Produkt erfolgreich erstellt.")
     @PostMapping
-    public ProductDetailDto addProduct(@RequestBody ProductCreateDto product) {
-        return productService.addProduct(product);
+    public ResponseEntity<ProductDetailDto> addProduct(@RequestBody ProductCreateDto product) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(product));
     }
 
     /**

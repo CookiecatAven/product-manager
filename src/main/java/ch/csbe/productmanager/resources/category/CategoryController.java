@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,8 +70,8 @@ public class CategoryController {
     @Operation(summary = "Erstellt eine neue Kategorie", description = "Fügt eine neue Kategorie in das System ein und gibt die erstellte Kategorie zurück.")
     @ApiResponse(responseCode = "201", description = "Kategorie erfolgreich erstellt.")
     @PostMapping
-    public CategoryShowDto addCategory(@RequestBody CategoryCreateDto category) {
-        return categoryService.addCategory(category);
+    public ResponseEntity<CategoryShowDto> addCategory(@RequestBody CategoryCreateDto category) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.addCategory(category));
     }
 
     /**
