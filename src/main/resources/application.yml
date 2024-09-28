@@ -10,3 +10,4 @@ spring:
     generate-ddl: false
   flyway:
     enabled: true
+    clean-disabled: false
