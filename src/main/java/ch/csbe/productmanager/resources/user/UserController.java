@@ -78,11 +78,16 @@ public class UserController {
     @Operation(summary = "Aktualisiert die Rolle eines Benutzers", description = "Setzt die Rolle eines Benutzers basierend auf dem Benutzernamen.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Benutzerrolle erfolgreich aktualisiert."),
+            @ApiResponse(responseCode = "403", description = "Es wurde versucht, die Rolle von admin zu ändern."),
             @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden.")
     })
     @PreAuthorize("hasAuthority('Admin')")
     @PutMapping("/{username}/role")
     public ResponseEntity<UserDetailDto> setUserRoleByUsername(@PathVariable String username, @RequestBody UserRoleDto roleDto) {
+        // Rolle von user admin darf niemals geändert werden
+        if (Objects.equals(username, "admin")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         Optional<UserDetailDto> updatedUser = userService.updateUserRole(username, roleDto.getRole());
         return updatedUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
