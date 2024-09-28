@@ -38,6 +38,17 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public Optional<User> getUserWithCredentials(String username, String password) {
+        Optional<User> foundUser = userRepository.findByUsername(username);
+        // Wenn User mit Benutzername gefunden wurde, muss das Passwort überprüft werden
+        return foundUser.map(user -> {
+            if (encoder.matches(password, user.getPassword())) {
+                return user;
+            }
+            return null;
+        });
+    }
+
     public UserDetailDto addUser(UserCreateDto userCreateDto) {
         User savedUser = userRepository.save(userMapper.toEntity(userCreateDto));
         return userMapper.toDetailDto(savedUser);
