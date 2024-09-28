@@ -44,7 +44,6 @@ public class ProductDetailDto {
     @Schema(description = "Der Lagerbestand des Produkts.", example = "50")
     private Integer stock;
 
-// todo wie kann der Mapper aus einem Category-Object dieses Dto object erstellen?
     @Schema(description = "Die Kategorie des Produkts.")
     private CategoryShowDto category;
 }

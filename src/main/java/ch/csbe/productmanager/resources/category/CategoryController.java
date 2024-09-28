@@ -77,7 +77,7 @@ public class CategoryController {
     /**
      * Aktualisiert eine bestehende Kategorie.
      *
-     * @param id die ID der Kategorie
+     * @param id              die ID der Kategorie
      * @param updatedCategory die aktualisierten Daten der Kategorie
      * @return die aktualisierte Kategorie in Form eines CategoryShowDto
      */

@@ -53,7 +53,7 @@ public abstract class CategoryMapper {
     /**
      * Update von Category durch CategoryShowDto.
      *
-     * @param categoryUpdateDto das CategoryUpdateDto mit den neuen Daten
+     * @param categoryUpdateDto      das CategoryUpdateDto mit den neuen Daten
      * @param categoryEntityToUpdate die Category-Entität, welche aktualisiert werden soll
      */
     @Mapping(target = "id", ignore = true)
